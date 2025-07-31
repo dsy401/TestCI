@@ -24,7 +24,8 @@ jobs:
           echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
           dotnet ef --version
           connectionString=daddy
-          CONNECTION_STRING=$connectionString
-          echo $CONNECTION_STRING
-          echo "Done"
+          echo "::add-mask::$connectionString"
+          echo "CONNECTION_STRING=$connectionString" >> $GITHUB_ENV
+          cd TestCI
+          dotnet run
           
