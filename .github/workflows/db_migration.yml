@@ -1,0 +1,36 @@
+name: Database Migration
+
+on:
+  workflow_call:
+    inputs:
+      project_path:
+        type: string
+        description: "Project Path"
+        required: true
+      db_connection_string:
+        type: string
+        description: "Database Connection String"
+        required: true
+      environment:
+        type: string
+        description: "Environment"
+        required: true
+
+jobs:
+  apply_database_migration:
+    name: DB Migration
+    runs-on: ubuntu-latest
+    environment: ${{inputs.environment}}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+      - name: Test dotnet command
+        run: |
+          dotnet tool install --global dotnet-ef
+          echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
+          dotnet ef --version
+          echo "${{inputs.project_path}}"

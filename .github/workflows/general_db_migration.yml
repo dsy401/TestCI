@@ -1,0 +1,50 @@
+name: Test Fake General Database Migration
+
+permissions:
+  id-token: write
+  contents: read
+
+
+on:
+  workflow_dispatch:
+    inputs:
+      database_type:
+        description: Choose your database
+        type: choice
+        options:
+          - Auth
+          - Catalog
+          - Analytics
+
+jobs:
+  preparation:
+    name: Preparation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail if not main branch
+        run: |
+          echo "Running on ref: $GITHUB_REF"
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "❌ This workflow can only be run on the main branch"
+            exit 1
+          fi
+
+  apply_db_migration_to_sandbox:
+    needs:
+      - preparation
+    name: "Sandbox - ${{inputs.database_type}} Database Migration"
+    uses: ./.github/workflows/db_migration.yml
+    with:
+      db_connection_string: "xxx"
+      project_path: "zzz"
+      environment: "sandbox"
+
+  apply_db_migration_to_production:
+    name: "Production - ${{inputs.database_type}} Database Migration"
+    needs:
+      - apply_db_migration_to_sandbox
+    uses: ./.github/workflows/db_migration.yml
+    with:
+      db_connection_string: "xxx"
+      project_path: "zzz"
+      environment: "production"

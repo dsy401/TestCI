@@ -1,0 +1,14 @@
+/Users/shunyuandeng/demos/TestCI/TestCI/bin/Debug/net8.0/TestCI
+/Users/shunyuandeng/demos/TestCI/TestCI/bin/Debug/net8.0/TestCI.deps.json
+/Users/shunyuandeng/demos/TestCI/TestCI/bin/Debug/net8.0/TestCI.runtimeconfig.json
+/Users/shunyuandeng/demos/TestCI/TestCI/bin/Debug/net8.0/TestCI.dll
+/Users/shunyuandeng/demos/TestCI/TestCI/bin/Debug/net8.0/TestCI.pdb
+/Users/shunyuandeng/demos/TestCI/TestCI/obj/Debug/net8.0/TestCI.GeneratedMSBuildEditorConfig.editorconfig
+/Users/shunyuandeng/demos/TestCI/TestCI/obj/Debug/net8.0/TestCI.AssemblyInfoInputs.cache
+/Users/shunyuandeng/demos/TestCI/TestCI/obj/Debug/net8.0/TestCI.AssemblyInfo.cs
+/Users/shunyuandeng/demos/TestCI/TestCI/obj/Debug/net8.0/TestCI.csproj.CoreCompileInputs.cache
+/Users/shunyuandeng/demos/TestCI/TestCI/obj/Debug/net8.0/TestCI.dll
+/Users/shunyuandeng/demos/TestCI/TestCI/obj/Debug/net8.0/refint/TestCI.dll
+/Users/shunyuandeng/demos/TestCI/TestCI/obj/Debug/net8.0/TestCI.pdb
+/Users/shunyuandeng/demos/TestCI/TestCI/obj/Debug/net8.0/TestCI.genruntimeconfig.cache
+/Users/shunyuandeng/demos/TestCI/TestCI/obj/Debug/net8.0/ref/TestCI.dll

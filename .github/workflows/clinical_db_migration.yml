@@ -1,0 +1,88 @@
+name: Test Fake Clinical Database Migration
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: Select the environment
+        required: true
+        default: sandbox
+        options:
+          - sandbox
+          - production
+      database_shard_id:
+        description: shard id of clinical database (eg. 1,2,3..). If shard id is not entered, the workflow will apply all the databases migration
+        required: false
+        type: number
+
+jobs:
+  preparation:
+    name: Preparation
+    env:
+      SANDBOX_SHARDS: "1"
+      PRODUCTION_SHARDS: "1 2 3 4 5 6 7 8 9 10 11 12 13"
+    runs-on: ubuntu-latest
+    outputs:
+      shards_to_apply: ${{ steps.set-shards.outputs.shards_to_apply }}
+    steps:
+      - name: Fail if not main branch
+        run: |
+          echo "Running on ref: $GITHUB_REF"
+          if [[ "$GITHUB_REF" != "refs/heads/main" ]]; then
+            echo "❌ This workflow can only be run on the main branch"
+            exit 1
+          fi
+      - name: Fail if database shard id is not number
+        if: ${{ github.event.inputs.database_shard_id != '' }}
+        run: |
+          if [[ -n "${{ github.event.inputs.database_shard_id }}" ]]; then
+            if ! [[ "${{ github.event.inputs.database_shard_id }}" =~ ^[0-9]+$ ]]; then
+              echo "❌ database_shard_id must be a number"
+              exit 1
+            fi
+          fi
+      - name: Prepare database shard ids
+        id: set-shards
+        run: |
+          if [[ "${{ github.event.inputs.environment }}" == "sandbox" ]]; then
+            valid_shards=($SANDBOX_SHARDS)
+          else
+            valid_shards=($PRODUCTION_SHARDS)
+          fi
+          
+          shard_id="${{ github.event.inputs.database_shard_id }}"
+          
+          if [[ -z "$shard_id" ]]; then
+            echo "No shard ID provided, applying to all shards."
+            json_array=$(printf '"%s",' "${valid_shards[@]}")
+            json_array="[${json_array%,}]"
+            echo "shards_to_apply=$json_array" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          if [[ ! " ${valid_shards[@]} " =~ " $shard_id " ]]; then
+            echo "❌ Invalid shard ID $shard_id for environment '${{ github.event.inputs.environment }}'."
+            echo "Valid shard IDs are: ${valid_shards[*]}"
+            exit 1
+          fi
+          
+          echo "shards_to_apply=[\"$shard_id\"]" >> $GITHUB_OUTPUT
+            
+
+  apply_database_migration:
+    needs:
+      - preparation
+    name: Apply Migration to DB
+    strategy:
+      matrix:
+        shard: ${{ fromJson(needs.preparation.outputs.shards_to_apply) }}
+    uses: ./.github/workflows/db_migration.yml
+    with:
+      db_connection_string: "xxx"
+      project_path: "zzz"
+      environment: ${{ inputs.environment }}
