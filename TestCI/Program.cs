@@ -2,4 +2,4 @@
 
 var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-Console.WriteLine(connectionString);
+Console.WriteLine($"HI: {connectionString}");
