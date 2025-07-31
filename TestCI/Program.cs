@@ -2,4 +2,11 @@
 
 var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-Console.WriteLine($"HI: {connectionString}");
+if (string.IsNullOrEmpty(connectionString))
+{
+    Console.WriteLine("Null");
+}
+else
+{
+    Console.WriteLine($"HI: {connectionString}");
+}
