@@ -24,7 +24,8 @@ jobs:
           echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
           dotnet ef --version
           connectionString=daddy
-          echo "::add-mask::$connectionString"
-          echo "CONNECTION_STRING=$connectionString" >> $GITHUB_ENV
+          CONNECTION_STRING=$connectionString
+#          echo "::add-mask::$connectionString"
+#          echo "CONNECTION_STRING=$connectionString" >> $GITHUB_ENV
           echo $CONNECTION_STRING
           
