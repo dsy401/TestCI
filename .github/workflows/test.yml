@@ -28,4 +28,5 @@ jobs:
 #          echo "::add-mask::$connectionString"
 #          echo "CONNECTION_STRING=$connectionString" >> $GITHUB_ENV
           echo $CONNECTION_STRING
+          echo "Done"
           
