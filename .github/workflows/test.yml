@@ -22,10 +22,12 @@ jobs:
         run: |
           dotnet tool install --global dotnet-ef
           echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
-          dotnet ef --version
+          dotnet ef --version"/api/v3/surgery-monitors
           connectionString=daddy
           echo "::add-mask::$connectionString"
           echo "CONNECTION_STRING=$connectionString" >> $GITHUB_ENV
+      - name: TT
+        run: |
           cd TestCI
-          CONNECTION_STRING=$CONNECTION_STRING dotnet run
+          dotnet run
           
