@@ -1,0 +1,29 @@
+name: Test Fake Clinical Database Migration
+
+permissions:
+  id-token: write
+  contents: read
+
+on:
+  push:
+    
+jobs:
+  apply_database_migration:
+    name: DB Migration
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+      - name: Test dotnet command
+        run: |
+          dotnet tool install --global dotnet-ef
+          echo "${HOME}/.dotnet/tools" >> $GITHUB_PATH
+          dotnet ef --version
+          connectionString=daddy
+          echo "::add-mask::$connectionString"
+          echo "CONNECTION_STRING=$connectionString" >> $GITHUB_ENV
+          
