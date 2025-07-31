@@ -1,4 +1,4 @@
-name: Test Fake Clinical Database Migration
+name: Test CI
 
 permissions:
   id-token: write
@@ -26,4 +26,5 @@ jobs:
           connectionString=daddy
           echo "::add-mask::$connectionString"
           echo "CONNECTION_STRING=$connectionString" >> $GITHUB_ENV
+          echo $CONNECTION_STRING
           
