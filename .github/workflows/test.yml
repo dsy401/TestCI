@@ -27,5 +27,5 @@ jobs:
           echo "::add-mask::$connectionString"
           echo "CONNECTION_STRING=$connectionString" >> $GITHUB_ENV
           cd TestCI
-          dotnet run
+          CONNECTION_STRING=$CONNECTION_STRING dotnet run
           
