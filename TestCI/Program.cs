@@ -8,6 +8,5 @@ if (string.IsNullOrEmpty(connectionString))
 }
 else
 {
-    
     Console.WriteLine($"HI: {connectionString}");
 }
